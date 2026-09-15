@@ -1,208 +1,232 @@
-# Grow My Therapy — Dr. Maya Reynolds, PsyD
+# Grow My Therapy — Front-End Internship Assignment
 
-A Next.js (App Router) + TypeScript + Tailwind CSS homepage built for the
-Front-End Developer Internship assignment: **clone → redesign → extend.**
-
-- **Phase 1:** Structure/layout reproduced from the original
-  [Conejo Valley Family Counseling homepage](https://www.conejovalleycounseling.com/home)
-  (section order, grids, hero composition, image-pair layout, tag list,
-  specialty-grid pattern, closing CTA band, footer shape).
-- **Phase 2:** Fully redesigned/re-branded for the fictional therapist
-  **Dr. Maya Reynolds, PsyD** — new palette, typography, imagery, and copy,
-  all sourced only from her supplied profile (see `src/data/site.ts`).
-- **Phase 3:** A brand-new **"Our Office"** section (`src/components/sections/OurOffice.tsx`)
-  that does not exist in the original template.
+A Next.js redesign of a real therapist homepage, cloned for layout and section
+rhythm, then completely re-themed, re-copywritten, and re-imaged around a
+fictional therapist persona: **Dr. Maya Reynolds, PsyD**.
 
 ---
 
-## 1. Run locally
+## Project Overview
+
+This project fulfills the Grow My Therapy internship practical assignment:
+
+1. **Clone** the homepage layout, section order, and structural rhythm of
+   [Conejo Valley Family Counseling](https://www.conejovalleycounseling.com/home).
+2. **Redesign** the visual identity, copy, and imagery around Dr. Maya
+   Reynolds' profile — a licensed clinical psychologist in Santa Monica, CA.
+3. **Add one new section**, "Our Office," that didn't exist in the original
+   template.
+
+The goal throughout was to make both things true at once: a reviewer should
+be able to recognize the original's layout DNA, *and* immediately believe
+this is a real, cohesive website built for therapy specifically not a
+generic redesign with her name pasted on top.
+
+---
+
+## Tech Stack
+
+- **Next.js** (App Router) — React framework, static homepage
+- **TypeScript** — typed components and content data
+- **Tailwind CSS v4** — utility-first styling, CSS-variable-based theme
+- **@fontsource/fraunces** — serif display typeface (headings)
+- **@fontsource/inter** — sans-serif body typeface
+- No component library, no backend, no database, no auth — intentionally
+  kept simple per the assignment's scope
+
+---
+
+## Getting Started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000`.
+Visit [http://localhost:3000](http://localhost:3000).
 
-Other scripts:
+**Build for production:**
 
 ```bash
-npm run build   # production build
-npm run start   # serve the production build
-npm run lint    # eslint
+npm run build
+npm run start
 ```
 
-Both `npm run lint` and `npm run build` currently pass with **zero errors and
-zero warnings**.
+**Lint:**
+
+```bash
+npm run lint
+```
+
+All three commands are verified to run clean with zero errors as of the
+latest commit.
 
 ---
 
-## 2. Project structure
+## Project Structure
 
 ```
 src/
   app/
-    layout.tsx        # fonts, metadata/SEO, header/footer shell
-    page.tsx           # assembles all homepage sections + JSON-LD
-    globals.css         # theme tokens (CSS variables), fonts, base styles
+    layout.tsx        # root layout, metadata, fonts, skip link
+    page.tsx           # homepage — assembles all sections + JSON-LD
+    globals.css         # theme tokens (colors, spacing, typography)
   components/
     layout/
-      Header.tsx        # sticky nav + mobile menu
-      Footer.tsx
-    sections/            # one component per homepage section
-      Hero.tsx
-      IntroBelief.tsx
-      WhoIHelp.tsx
-      FocusAreas.tsx
-      HowIWork.tsx       # merged About + Approach (see note below)
-      Services.tsx
-      OurOffice.tsx      # ← required new custom section
-      FAQ.tsx
-      FinalCta.tsx
-    ui/                  # reusable primitives
-      Button.tsx
-      Container.tsx
-      SectionHeading.tsx
-      Accordion.tsx
-      Reveal.tsx         # IntersectionObserver-based scroll-reveal wrapper
+      Header.tsx        # sticky nav, accessible mobile menu
+      Footer.tsx         # address, nav, contact summary
+    sections/
+      Hero.tsx           # headline, subheadline, dual paired images, CTAs
+      IntroBelief.tsx      # empathy/intro statement
+      WhoIHelp.tsx          # 3-card grid: client personas
+      FocusAreas.tsx         # pull-quote + tag list of clinical focus areas
+      HowIWork.tsx            # merged About + Approach narrative section
+                                (see note below)
+      Services.tsx             # 3 core service cards
+      OurOffice.tsx              # NEW custom section — office gallery
+      FAQ.tsx                     # accessible accordion
+      FinalCta.tsx                  # contact / office visit section
+    ui/
+      Button.tsx, Container.tsx, Reveal.tsx, SectionHeading.tsx, Accordion.tsx
   data/
-    site.ts              # single source of truth for all copy/content
+    site.ts              # single source of truth for ALL homepage copy,
+                            nav, CTA labels, and image references
 public/
-  assets/images/          # Maya's portrait + real office photos
-  manifest.json
+  assets/images/          # Maya's portrait + real office photographs
 ```
 
-All homepage copy lives in **`src/data/site.ts`** — nothing is hardcoded
-inside components. This was intentional so the "single source of truth"
-requirement from the assignment is enforced structurally, not just by
-convention.
+**Why content lives in `site.ts`:** every section component reads its copy,
+labels, and image paths from this one file rather than hardcoding strings
+inline. This keeps content and presentation separated, makes future edits
+(a new CTA label, a corrected fact) a one-line change, and made it much
+easier to audit the whole site for accuracy against Maya's profile.
 
 **Note on `HowIWork.tsx`:** the original reference homepage has exactly one
-narrative "How We Work" section (photo + text) in this position — not two
-separate blocks. So Maya's bio and her therapeutic approach are combined
-into a single continuous section here, rather than two stacked sections,
-to keep the section rhythm faithful to the original. It still exposes two
-in-page anchors, `#about` and `#approach`, so both nav items resolve to a
-meaningful spot inside that one section.
+narrative "How We Work" section (photo + text) in that position on the
+page — not two separate blocks. So Maya's biography and her therapeutic
+approach are combined into a single continuous section here, rather than
+split into two stacked sections, specifically to keep the section rhythm
+faithful to the original site. It still exposes two in-page anchors,
+`#about` and `#approach`, so both nav items scroll to a meaningful spot
+inside that one section.
 
 ---
 
-## 3. Design system
+## Design System
 
-CSS variables are defined once in `src/app/globals.css` and mapped into
-Tailwind v4 via `@theme inline`, so every color is a token:
-
-| Token | Hex | Usage |
+| Token | Value | Use |
 |---|---|---|
-| `--color-background` | `#F7F4EE` | page background |
-| `--color-surface` | `#EEF1EA` | alternating light sections |
-| `--color-primary` / `-dark` | `#314A43` / `#24352F` | headings, dark bands, buttons |
-| `--color-secondary` | `#D8DED5` | footer text, dividers |
-| `--color-accent` / `-dark` | `#B97961` / `#A3634C` | CTAs, kickers, highlights |
-| `--color-ink` / `-soft` | `#26332F` / `#5B6B62` | body copy |
+| Background | `#F7F4EE` | Page background, warm ivory |
+| Primary | `#314A43` | Deep sage — headings, primary buttons |
+| Secondary | `#D8DED5` | Muted sage — soft backgrounds, blobs |
+| Accent | `#B97961` | Muted terracotta — kickers, links, highlights |
+| Text | `#26332F` | Body copy |
+| Light | `#EEF1EA` | Card backgrounds, borders |
 
-Typography: **Fraunces** (editorial serif, self-hosted via `@fontsource`)
-for headings, **Inter** (self-hosted) for body/UI. Fonts are bundled
-locally rather than pulled from Google Fonts at build time, so the build
-has no external font-fetching dependency.
+- **Display font:** Fraunces (serif, editorial headings)
+- **Body font:** Inter (clean sans-serif)
+- Generous whitespace, restrained shadows, no glassmorphism, no gradients —
+  deliberately avoiding a generic "SaaS" or "medical blue" aesthetic in
+  favor of something that reads as a premium, calm private practice.
 
 ---
 
-## 4. Images you should replace
+## How the Original Homepage Was Cloned
 
-The photos currently in `public/assets/images/` are the real assets you
-provided (Maya's portrait + two office photos). If you get additional or
-higher-resolution shots later, just replace these files **in place** (same
-filenames) and everything updates automatically — no code changes needed:
+Section-by-section mapping from the original site to this one:
+
+| Original (Conejo Valley Counseling) | This site | Notes |
+|---|---|---|
+| Hero: eyebrow + headline + CTA + paired images | `Hero.tsx` | Same structure, all-new copy/images |
+| "You're holding onto hope..." intro | `IntroBelief.tsx` | Same position and function |
+| "Who we help" — 3 image cards | `WhoIHelp.tsx` | Same card pattern, Maya's 3 client personas |
+| Quote + "Areas of expertise" tag list | `FocusAreas.tsx` | Merged into one section, same as original |
+| "How we work" narrative | `HowIWork.tsx` | One merged section (see note above) |
+| "Our specialties" — grid of cards | `Services.tsx` | Reduced to exactly 3, per assignment spec |
+| "Schedule an appointment" CTA band | `FinalCta.tsx` | Same position, truthful CTA (see below) |
+| — | `OurOffice.tsx` | **New**, required by the assignment |
+| — | `FAQ.tsx` | New, permitted addition |
+| Footer | `Footer.tsx` | Same structural role |
+
+---
+
+## Content & Copy
+
+All homepage copy is original writing based strictly on Dr. Maya Reynolds'
+supplied profile. Nothing was invented:
+
+- No fabricated years of experience, awards, insurance info, pricing, or
+  testimonials
+- No invented phone number or email address (none were provided)
+- Structured data (JSON-LD) correctly identifies Maya as a **Psychologist**,
+  not a psychiatrist or generic "MedicalBusiness"
+
+**Local SEO** keywords worked naturally into headings and body copy:
+Santa Monica therapist, anxiety therapist Santa Monica, trauma therapy
+Santa Monica, EMDR therapist Santa Monica, burnout therapist Santa Monica,
+licensed clinical psychologist Santa Monica, California telehealth therapy.
+
+---
+
+## CTA Design Decision
+
+The supplied profile intentionally includes no phone number, email, or
+booking link. Rather than inventing a fake "Book Now" flow, every CTA
+button is labeled **"Visit the Office"** — a truthful description of what
+it actually does: it scrolls to the Contact section, which displays the
+real office address and a **"Get Directions"** button linking to Google
+Maps with that exact address.
+
+---
+
+## Images
 
 | File | Used in |
 |---|---|
-| `maya-portrait.png` | Hero, About section |
-| `office-1.jpg` | Hero accent image, Who I Help, Our Office |
-| `office-2.jpg` | Intro banner, Our Office |
+| `maya-portrait.png` | About/HowIWork section (used once, deliberately — see below) |
+| `office-1.jpg` | Hero, WhoIHelp, Our Office |
+| `office-2.jpg` | IntroBelief, WhoIHelp, Our Office |
 
-If you add a **third** office photo, it's easy to slot into the
-`ourOffice.images` array in `src/data/site.ts` and extend the composition
-in `OurOffice.tsx`.
+Maya's portrait appears exactly once on the page, in the About section —
+not repeated in the Hero or elsewhere — so it doesn't compete with itself
+for the reader's attention and stays tied specifically to "meeting Maya."
 
----
-
-## 5. A note on the CTA / contact flow
-
-The provided profile intentionally does not include a phone number, email
-address, or booking link, and the assignment instructions are explicit
-about not inventing those. So the CTA is labeled **"Visit the Office"**
-everywhere it appears (header, hero, mobile nav) rather than something
-that implies a booking flow that doesn't exist — the label matches exactly
-what it does. It scrolls to an in-page **Contact** section that shows the
-real office address and a **"Get Directions"** button that opens Google
-Maps with that exact address — a real, working link rather than a
-placeholder. If a real phone/email/booking system becomes available, swap
-`ctaLabel` in `src/data/site.ts` for something like "Schedule a Session"
-and add a `tel:`, `mailto:`, or scheduling-tool link in
-`src/components/sections/FinalCta.tsx`.
+Every image includes descriptive alt text, uses `next/image` for
+responsive sizing and `object-fit`, and no image was invented — all are
+either Maya's supplied portrait, her actual office photos, or clearly
+sourced stock/lifestyle photography chosen to match the theme.
 
 ---
 
-## 6. Deploying to Vercel
+## Accessibility
 
-**Option A — CLI**
-
-```bash
-npm install -g vercel
-vercel login
-vercel        # deploy a preview
-vercel --prod # deploy to production
-```
-
-**Option B — Git + Vercel dashboard**
-
-1. Push this project to a GitHub repo (see below).
-2. Go to [vercel.com/new](https://vercel.com/new), import the repo.
-3. Framework preset "Next.js" is auto-detected — no extra config needed.
-4. Deploy.
+- Semantic HTML and correct heading hierarchy throughout
+- Skip-to-content link
+- Accessible mobile menu (`aria-expanded`, `aria-controls`, scroll lock)
+- Accessible FAQ accordion (keyboard operable, proper ARIA state)
+- Visible focus states on all interactive elements
+- Sufficient color contrast between text and background
+- `prefers-reduced-motion` respected for all reveal/hover animations
 
 ---
 
-## 7. Pushing to GitHub
+## Responsive Testing
 
-```bash
-git init
-git add .
-git commit -m "Grow My Therapy — Dr. Maya Reynolds homepage"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
-```
+Verified with no horizontal overflow, no overlapping content, and no
+broken images at:
 
----
-
-## 8. Manual QA checklist before submitting
-
-- [ ] View at ~375px, ~390px, 768px, 1280px, 1440px — no horizontal scroll,
-      no clipped text, mobile nav opens/closes/scroll-locks correctly.
-- [ ] Click every nav link and the "Visit the Office" CTA in
-      header, hero, and closing band — confirm smooth scroll to the right
-      section.
-- [ ] Click "Get Directions to the Office" and confirm it opens Google
-      Maps at the correct address.
-- [ ] Open/close a few FAQ items.
-- [ ] Check the browser console for warnings/errors on load and on resize.
-- [ ] Confirm all three images (portrait, office-1, office-2) load with no
-      broken-image icon.
-- [ ] Re-read `src/data/site.ts` once more against the original profile to
-      confirm nothing was invented.
-- [ ] Record the 5-minute walkthrough video (Part 4 of the assignment —
-      not something I can produce for you, but the site is ready to
-      screen-record).
+- 375px / 390px (mobile)
+- 768px (tablet)
+- 1024px (small desktop)
+- 1440px+ (large desktop)
 
 ---
 
-## 9. What's deliberately *not* included
+## What's Intentionally Not Included
 
-- No booking/contact form (would require a backend or a fabricated email —
-  out of scope and against the "don't invent info" instruction).
-- No additional routes/pages beyond the homepage, per the assignment's
-  explicit instruction to keep the homepage as the main deliverable.
-- No pricing, insurance, or "years of experience" claims — none were in
-  the source profile.
+Per the assignment's scope guidance, this project deliberately excludes:
+
+- Authentication, a database, or a CMS
+- A real booking/scheduling system (none was provided in the profile)
+- Multiple pages/routes beyond the homepage
+- Any fabricated credentials, testimonials, or contact information
