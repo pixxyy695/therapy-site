@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* Self-hosted editorial serif + clean sans, no external network calls at build/runtime */
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/300-italic.css";
+@import "@fontsource/fraunces/500-italic.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+:root {
+  /* ---- Brand tokens (single source of truth for color) ---- */
+  --color-background: #f7f4ee;
+  --color-surface: #eef1ea;
+  --color-primary: #314a43;
+  --color-primary-dark: #24352f;
+  --color-secondary: #d8ded5;
+  --color-accent: #b97961;
+  --color-accent-dark: #a3634c;
+  --color-ink: #26332f;
+  --color-ink-soft: #5b6b62;
+  --color-border: #dcd6c8;
+  --color-cream: #fbf9f4;
+
+  --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-border: var(--color-border);
+  --color-cream: var(--color-cream);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+
+  --animate-fade-up: fade-up 0.8s ease forwards;
+  --animate-fade-in: fade-in 0.8s ease forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-feature-settings: "ss01" 1;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-cream);
+}
+
+/* Reveal-on-scroll utility: JS toggles [data-inview] to trigger the animation */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal][data-inview="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  * {
+    scroll-behavior: auto;
+  }
+}
+
+/* Focus visibility for accessibility */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
