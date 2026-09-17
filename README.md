@@ -4,7 +4,7 @@ A Next.js redesign of a real therapist homepage, cloned for layout and section
 rhythm, then completely re-themed, re-copywritten, and re-imaged around a
 fictional therapist persona: **Dr. Maya Reynolds, PsyD**.
 
----
+--
 
 ## Project Overview
 
@@ -22,7 +22,7 @@ be able to recognize the original's layout DNA, *and* immediately believe
 this is a real, cohesive website built for therapy specifically not a
 generic redesign with her name pasted on top.
 
----
+--
 
 ## Tech Stack
 
@@ -31,10 +31,10 @@ generic redesign with her name pasted on top.
 - **Tailwind CSS v4** — utility-first styling, CSS-variable-based theme
 - **@fontsource/fraunces** — serif display typeface (headings)
 - **@fontsource/inter** — sans-serif body typeface
-- No component library, no backend, no database, no auth — intentionally
+- No component library, no backend, no database, no auth - intentionally
   kept simple per the assignment's scope
 
----
+--
 
 ## Getting Started
 
@@ -57,10 +57,6 @@ npm run start
 ```bash
 npm run lint
 ```
-
-All three commands are verified to run clean with zero errors as of the
-latest commit.
-
 ---
 
 ## Project Structure
@@ -103,14 +99,14 @@ easier to audit the whole site for accuracy against Maya's profile.
 
 **Note on `HowIWork.tsx`:** the original reference homepage has exactly one
 narrative "How We Work" section (photo + text) in that position on the
-page — not two separate blocks. So Maya's biography and her therapeutic
+page  not two separate blocks. So Maya's biography and her therapeutic
 approach are combined into a single continuous section here, rather than
 split into two stacked sections, specifically to keep the section rhythm
 faithful to the original site. It still exposes two in-page anchors,
 `#about` and `#approach`, so both nav items scroll to a meaningful spot
 inside that one section.
 
----
+--
 
 ## Design System
 
@@ -129,7 +125,7 @@ inside that one section.
   deliberately avoiding a generic "SaaS" or "medical blue" aesthetic in
   favor of something that reads as a premium, calm private practice.
 
----
+--
 
 ## How the Original Homepage Was Cloned
 
@@ -141,14 +137,14 @@ Section-by-section mapping from the original site to this one:
 | "You're holding onto hope..." intro | `IntroBelief.tsx` | Same position and function |
 | "Who we help" — 3 image cards | `WhoIHelp.tsx` | Same card pattern, Maya's 3 client personas |
 | Quote + "Areas of expertise" tag list | `FocusAreas.tsx` | Merged into one section, same as original |
-| "How we work" narrative | `HowIWork.tsx` | One merged section (see note above) |
+| "How we work" narrative | `HowIWork.tsx` | One merged section |
 | "Our specialties" — grid of cards | `Services.tsx` | Reduced to exactly 3, per assignment spec |
 | "Schedule an appointment" CTA band | `FinalCta.tsx` | Same position, truthful CTA (see below) |
 | — | `OurOffice.tsx` | **New**, required by the assignment |
 | — | `FAQ.tsx` | New, permitted addition |
 | Footer | `Footer.tsx` | Same structural role |
 
----
+--
 
 ## Content & Copy
 
@@ -166,7 +162,7 @@ Santa Monica therapist, anxiety therapist Santa Monica, trauma therapy
 Santa Monica, EMDR therapist Santa Monica, burnout therapist Santa Monica,
 licensed clinical psychologist Santa Monica, California telehealth therapy.
 
----
+--
 
 ## CTA Design Decision
 
@@ -177,7 +173,7 @@ it actually does: it scrolls to the Contact section, which displays the
 real office address and a **"Get Directions"** button linking to Google
 Maps with that exact address.
 
----
+--
 
 ## Images
 
@@ -196,7 +192,7 @@ responsive sizing and `object-fit`, and no image was invented — all are
 either Maya's supplied portrait, her actual office photos, or clearly
 sourced stock/lifestyle photography chosen to match the theme.
 
----
+--
 
 ## Accessibility
 
@@ -208,19 +204,8 @@ sourced stock/lifestyle photography chosen to match the theme.
 - Sufficient color contrast between text and background
 - `prefers-reduced-motion` respected for all reveal/hover animations
 
----
+--
 
-## Responsive Testing
-
-Verified with no horizontal overflow, no overlapping content, and no
-broken images at:
-
-- 375px / 390px (mobile)
-- 768px (tablet)
-- 1024px (small desktop)
-- 1440px+ (large desktop)
-
----
 
 ## What's Intentionally Not Included
 
